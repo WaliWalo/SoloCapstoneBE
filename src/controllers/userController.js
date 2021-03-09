@@ -2,7 +2,9 @@ const UserModel = require("../models/UserModel");
 
 const createNewUser = async (req, res, next) => {
   try {
-    console.log("CREATE NEW USER");
+    const newUser = new UserModel(req.body);
+    const { _id } = await newUser.save();
+    res.status(200).send(_id);
   } catch (error) {
     console.log(error);
     next(error);

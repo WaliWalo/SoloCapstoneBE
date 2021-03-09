@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema(
   {
     name: { type: String, required: true },
-    creator: { type: String, required: true },
+    creator: { type: Boolean, required: true },
     turn: { type: Boolean },
   },
   { timestampe: true }

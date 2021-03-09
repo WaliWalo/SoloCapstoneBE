@@ -6,7 +6,6 @@ const MessageSchema = new Schema(
     content: { type: String, required: true },
     url: { type: String },
     sender: { type: mongoose.ObjectId, ref: "User", required: true },
-    from: { type: mongoose.ObjectId, ref: "User", required: true },
   },
   { timestampe: true }
 );

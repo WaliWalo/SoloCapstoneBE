@@ -2,7 +2,8 @@ const QuestionModel = require("../models/QuestionModel");
 
 const getQuestions = async (req, res, next) => {
   try {
-    console.log("GET QUESTIONS");
+    const questions = await QuestionModel.find();
+    res.status(200).send(questions);
   } catch (error) {
     console.log(error);
   }

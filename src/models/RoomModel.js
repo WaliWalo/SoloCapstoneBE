@@ -6,6 +6,7 @@ const RoomSchema = new Schema(
     roomType: { type: String, required: true },
     ended: { type: Boolean },
     started: { type: Boolean },
+    roomName: { type: String, required: true },
   },
   { timestampe: true }
 );
