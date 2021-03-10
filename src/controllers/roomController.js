@@ -3,7 +3,13 @@ const Room = require("../models/RoomModel");
 const getRoomByUserId = async (req, res, next) => {
   try {
     const room = await Room.findOne({ users: req.params.userId });
-    res.status(200).send(room);
+    if (room) {
+      res.status(200).send(room);
+    } else {
+      let error = new Error();
+      error.httpStatusCode = 404;
+      next(error);
+    }
   } catch (error) {
     console.log(error);
     next(error);

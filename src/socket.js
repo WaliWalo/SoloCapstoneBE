@@ -59,9 +59,13 @@ const createSocketServer = (server) => {
         //add user to room in database
         await addUserToRoom({ userId, roomName });
         socket.join(roomName);
+        socket.emit("roomExist", { status: "ok", msg: "Room does not exist" });
         io.in(roomName).emit("userJoined", { userId });
       } else {
-        socket.emit("roomExist", { msg: "Room does not exist" });
+        socket.emit("roomExist", {
+          status: "error",
+          msg: "Room does not exist",
+        });
       }
     });
 
