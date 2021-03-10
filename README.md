@@ -1,16 +1,18 @@
-#SoloCapstoneBE
+# SoloCapstoneBE
 
 A "party" game platform, for now it will be a truth or dare implementation, more game will be added in the future such as "Would You Rather?", "Most Likely To?".
 
 Inspiration came from all the lockdowns during this pandemic. Missed the time when people could hang out and play drinking games like truth or dare, hence the idea of creating an online socializing platform for people to play with each other even in lockdown. The concept was inspired by Kahoot! and Jackbox games, where it is room based.
 
-##Technology for Front-End:
+## Technology for Front-End:
+
 1. React
 2. Socket.io
 3. Bootstrap
 4. Typescript
 
-##Technology for Back-End:
+## Technology for Back-End:
+
 1. Node JS
 2. Socket.io
 3. Mongo
@@ -28,4 +30,4 @@ Basic ERD
 Basic Wireframe  
 ![alt text](https://res.cloudinary.com/waliwalo/image/upload/v1615217755/solocap/Page_1_tls1al.png)  
 ![alt text](https://res.cloudinary.com/waliwalo/image/upload/v1615217755/solocap/Page_2_g7togm.png)  
-![alt text](https://res.cloudinary.com/waliwalo/image/upload/v1615217755/solocap/Page_3_za5rs5.png)  
+![alt text](https://res.cloudinary.com/waliwalo/image/upload/v1615217755/solocap/Page_3_za5rs5.png)

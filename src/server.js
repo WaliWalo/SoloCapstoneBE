@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const userRoutes = require("./routes/userRoutes");
 const questionRoutes = require("./routes/questionRoutes");
 const messageRoutes = require("./routes/messageRoutes");
+const roomRoutes = require("./routes/roomRoutes");
 
 const http = require("http");
 const createSocketServer = require("./socket");
@@ -41,6 +42,7 @@ server.use(express.json());
 userRoutes(server);
 questionRoutes(server);
 messageRoutes(server);
+roomRoutes(server);
 
 // ERROR HANDLERS MIDDLEWARES
 
