@@ -14,7 +14,7 @@ const createNewUser = async (req, res, next) => {
 
 const getUserByRoomId = async (req, res, next) => {
   try {
-    const room = await Room.findById(req.params.roomId);
+    const room = await Room.findById(req.params.roomId).populate("users");
     res.status(200).send(room.users);
   } catch (error) {
     console.log(error);
