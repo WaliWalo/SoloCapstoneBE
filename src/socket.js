@@ -59,7 +59,7 @@ const createSocketServer = (server) => {
         //add user to room in database
         await addUserToRoom({ userId, roomName });
         socket.join(roomName);
-        socket.emit("roomExist", { status: "ok", msg: "Room does not exist" });
+        socket.emit("roomExist", { status: "ok", msg: "Room exist" });
         io.in(roomName).emit("userJoined", { userId });
       } else {
         socket.emit("roomExist", {
@@ -96,10 +96,10 @@ const createSocketServer = (server) => {
               (user) => user.toString() !== userId.toString()
             );
             const randomIndex = Math.floor(
-              Math.random() * Math.floor(filterRoom.length - 1)
+              Math.random() * Math.floor(filterRoom.length)
             );
             const user = await User.findById(filterRoom[randomIndex]);
-            io.in(roomName).emit("selectedUser", { user });
+            io.in(roomName).emit("selectedUser", user);
           }
         } else {
           console.log("Room doesnt exist");
@@ -131,12 +131,15 @@ const createSocketServer = (server) => {
       } else {
         nextUser = currentRoom.users[0];
       }
-      await User.findByIdAndUpdate(
+      const nextSelected = await User.findByIdAndUpdate(
         nextUser,
         { turn: true },
         { useFindAndModify: false }
       );
-      io.in(roomName).emit("onQuestionSelect", { question, nextUser });
+      io.in(roomName).emit("onQuestionSelect", {
+        question,
+        nextUser: nextSelected.name,
+      });
     });
 
     socket.on("endGame", async ({ userId, roomName }) => {
