@@ -144,7 +144,6 @@ const createSocketServer = (server) => {
 
     socket.on("endGame", async ({ userId, roomName }) => {
       const user = await User.findById(userId);
-      console.log(user);
       if (user.creator) {
         //find room where creator = user id
         const room = await Room.findOne({ roomName });
@@ -167,18 +166,31 @@ const createSocketServer = (server) => {
 
     socket.on("sendMessage", async ({ message, userId, roomName }) => {
       //broadcast message to room
-      console.log(message, userId);
-      io.in(roomName).emit("sendMessage", { sender: userId, content: message });
+      const user = await User.findById(userId);
+
       //add message to database
       const room = await Room.findOne({ roomName });
-      console.log(room);
       const newMessage = new Message({
         content: message,
         sender: userId,
         roomId: room._id,
       });
-
+      io.in(roomName).emit("sendMessage", {
+        sender: user,
+        content: message,
+        roomId: room._id,
+      });
       await newMessage.save();
+    });
+
+    socket.on("leaveRoom", async ({ roomName, userId }) => {
+      try {
+        await Room.findOneAndUpdate({ roomName }, { $pull: { users: userId } });
+        await User.findByIdAndDelete(userId);
+        io.in(roomName).emit("userLeft");
+      } catch (error) {
+        console.log(error);
+      }
     });
 
     socket.on("disconnect", (reason) => {
