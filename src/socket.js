@@ -187,7 +187,7 @@ const createSocketServer = (server) => {
       try {
         await Room.findOneAndUpdate({ roomName }, { $pull: { users: userId } });
         await User.findByIdAndDelete(userId);
-        io.in(roomName).emit("userLeft");
+        io.in(roomName).emit("userLeft", { userId });
       } catch (error) {
         console.log(error);
       }
