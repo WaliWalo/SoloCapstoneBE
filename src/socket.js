@@ -11,6 +11,8 @@ const randomChar = require("random-char");
 const User = require("./models/UserModel");
 const Room = require("./models/RoomModel");
 const Message = require("./models/MessageModel");
+const multer = require("multer");
+const cloudinary = require("./util/cloudinaryConfig");
 
 const createSocketServer = (server) => {
   const io = socketio(server);
@@ -156,6 +158,8 @@ const createSocketServer = (server) => {
         await Message.deleteMany({ roomId: room._id });
         await Room.deleteOne({ _id: room._id });
         //then delete current room from Room Model
+        //delete images in cloudinary
+        cloudinary.api.delete_resources_by_tag(roomName);
         io.in(roomName).emit("gameEnded", {
           msg: "Game ended, thanks for playing!",
         });
@@ -164,7 +168,7 @@ const createSocketServer = (server) => {
       }
     });
 
-    socket.on("sendMessage", async ({ message, userId, roomName }) => {
+    socket.on("sendMessage", async ({ message, userId, roomName, url }) => {
       //broadcast message to room
       const user = await User.findById(userId);
 
@@ -174,11 +178,13 @@ const createSocketServer = (server) => {
         content: message,
         sender: userId,
         roomId: room._id,
+        url,
       });
       io.in(roomName).emit("sendMessage", {
         sender: user,
         content: message,
         roomId: room._id,
+        url,
       });
       await newMessage.save();
     });
