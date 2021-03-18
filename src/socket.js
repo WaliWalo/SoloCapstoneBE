@@ -122,13 +122,11 @@ const createSocketServer = (server) => {
         { useFindAndModify: false }
       );
       const currentRoom = await Room.findOne({ roomName });
-      //selectedUser = currentRoom.users.findIndex(currentUser._id)
       const currentUserIndex = currentRoom.users.findIndex(
         (user) => user.toString() === userId.toString()
       );
       let nextUser = "";
       if (currentUserIndex !== currentRoom.users.length - 1) {
-        //nextUser = currentRoom.users[selectedUser+1]
         nextUser = currentRoom.users[currentUserIndex + 1];
       } else {
         nextUser = currentRoom.users[0];
@@ -191,6 +189,27 @@ const createSocketServer = (server) => {
 
     socket.on("leaveRoom", async ({ roomName, userId }) => {
       try {
+        //change user if its current user turn
+        const user = await User.findById(userId);
+        if (user.turn === true) {
+          const currentRoom = await Room.findOne({ roomName });
+          const currentUserIndex = currentRoom.users.findIndex(
+            (user) => user.toString() === userId.toString()
+          );
+          let nextUser = "";
+          if (currentUserIndex !== currentRoom.users.length - 1) {
+            nextUser = currentRoom.users[currentUserIndex + 1];
+          } else {
+            nextUser = currentRoom.users[0];
+          }
+          const nextSelected = await User.findByIdAndUpdate(
+            nextUser,
+            { turn: true },
+            { useFindAndModify: false }
+          );
+        }
+
+        //remove user from room
         await Room.findOneAndUpdate({ roomName }, { $pull: { users: userId } });
         await User.findByIdAndDelete(userId);
         io.in(roomName).emit("userLeft", { userId });
