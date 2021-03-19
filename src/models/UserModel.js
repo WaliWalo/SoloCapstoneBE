@@ -5,6 +5,7 @@ const UserSchema = new Schema(
     name: { type: String, required: true },
     creator: { type: Boolean, required: true },
     turn: { type: Boolean },
+    score: { type: Number },
   },
   { timestampe: true }
 );
