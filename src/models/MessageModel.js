@@ -7,7 +7,7 @@ const MessageSchema = new Schema(
     url: { type: String },
     sender: { type: mongoose.ObjectId, ref: "User", required: true },
   },
-  { timestampe: true }
+  { timestamps: true }
 );
 
 const Message = mongoose.model("Message", MessageSchema);

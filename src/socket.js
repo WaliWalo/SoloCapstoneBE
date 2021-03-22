@@ -109,9 +109,9 @@ const createSocketServer = (server) => {
       }
     });
 
-    socket.on("onSelect", ({ selection, roomName }) => {
+    socket.on("onSelect", ({ selection, roomName, userId }) => {
       //broadcast selection to room
-      io.in(roomName).emit("onSelect", selection);
+      io.in(roomName).emit("onSelect", { selection, userId });
     });
 
     socket.on("onQuestionSelect", async ({ question, userId, roomName }) => {

@@ -5,7 +5,7 @@ const QuestionSchema = new Schema(
     questionType: { type: String, required: true },
     content: { type: String, required: true },
   },
-  { timestampe: true }
+  { timestamps: true }
 );
 
 const Question = mongoose.model("Question", QuestionSchema);

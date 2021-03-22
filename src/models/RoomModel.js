@@ -8,7 +8,7 @@ const RoomSchema = new Schema(
     started: { type: Boolean },
     roomName: { type: String, required: true },
   },
-  { timestampe: true }
+  { timestamps: true }
 );
 
 const Room = mongoose.model("Room", RoomSchema);

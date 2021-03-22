@@ -5,9 +5,9 @@ const UserSchema = new Schema(
     name: { type: String, required: true },
     creator: { type: Boolean, required: true },
     turn: { type: Boolean },
-    score: { type: Number },
+    score: { type: Number, default: 0 },
   },
-  { timestampe: true }
+  { timestamps: true }
 );
 
 const User = mongoose.model("User", UserSchema);

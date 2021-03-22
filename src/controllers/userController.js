@@ -31,7 +31,7 @@ const getUserByRoomId = async (req, res, next) => {
   }
 };
 
-const calculteDate = (createdAt) => {
+const calculateDate = (createdAt) => {
   let date = moment(createdAt).add(5, "s").format();
   // date.replace("Moment<", "");
   return date;
@@ -41,8 +41,8 @@ agenda.define("delete old users", async () => {
   const users = await UserModel.find();
 
   users.forEach(async (user) => {
-    if (calculteDate(user.createdAt) <= moment().format()) {
-      await Conversation.findByIdAndDelete(user._id);
+    if (calculateDate(user.createdAt) <= moment().format()) {
+      await UserModel.findByIdAndDelete(user._id);
     }
   });
 });
