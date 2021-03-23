@@ -31,8 +31,25 @@ const getUserByRoomId = async (req, res, next) => {
   }
 };
 
+const updateScore = async (req, res, next) => {
+  try {
+    console.log(req.params.userId);
+    const user = await UserModel.findByIdAndUpdate(
+      req.params.userId,
+      {
+        $inc: { score: 1 },
+      },
+      { useFindAndModify: false, new: true }
+    );
+    res.status(200).send(user);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
 const calculateDate = (createdAt) => {
-  let date = moment(createdAt).add(5, "s").format();
+  let date = moment(createdAt).add(1, "d").format();
   // date.replace("Moment<", "");
   return date;
 };
@@ -53,4 +70,4 @@ agenda.define("delete old users", async () => {
   await agenda.every("5 seconds", ["delete old users"]);
 })();
 
-module.exports = { getUserByRoomId, createNewUser };
+module.exports = { getUserByRoomId, createNewUser, updateScore };
