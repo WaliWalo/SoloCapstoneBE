@@ -2,6 +2,7 @@ const Agenda = require("agenda");
 const Room = require("../models/RoomModel");
 const UserModel = require("../models/UserModel");
 const moment = require("moment");
+const Message = require("../models/MessageModel");
 
 const agenda = new Agenda({
   db: {
@@ -33,7 +34,6 @@ const getUserByRoomId = async (req, res, next) => {
 
 const updateScore = async (req, res, next) => {
   try {
-    console.log(req.params.userId);
     const user = await UserModel.findByIdAndUpdate(
       req.params.userId,
       {
@@ -60,6 +60,8 @@ agenda.define("delete old users", async () => {
   users.forEach(async (user) => {
     if (calculateDate(user.createdAt) <= moment().format()) {
       await UserModel.findByIdAndDelete(user._id);
+      await Room.deleteOne({ users: user });
+      await Message.deleteMany({ sender: user._id });
     }
   });
 });
