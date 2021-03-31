@@ -22,7 +22,7 @@ const server = express();
 const httpServer = http.createServer(server);
 createSocketServer(httpServer);
 
-const whitelist = [`${process.env.FE_URL}`];
+const whitelist = [`${process.env.REACT_APP_FE_URL}`];
 
 const corsOptions = {
   origin: function (origin, callback) {
