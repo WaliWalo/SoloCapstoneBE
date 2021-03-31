@@ -111,7 +111,6 @@ const createSocketServer = (server) => {
 
     socket.on("onSelect", ({ selection, roomName, userId }) => {
       //broadcast selection to room
-      console.log(selection);
       io.in(roomName).emit("onSelect", { selection, userId });
     });
 
